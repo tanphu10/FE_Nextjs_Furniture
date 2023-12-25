@@ -20,7 +20,9 @@ import { Avatar } from "@mui/material";
 import Container from "@mui/material/Container";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
+import Product from "./product";
+import { signOut, useSession } from "next-auth/react";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -62,6 +64,10 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function AppHeader() {
+  const { data: session } = useSession();
+  console.log("session", session?.user?.avatar);
+  // console.log("check UseSession", useSession());
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
@@ -104,11 +110,21 @@ export default function AppHeader() {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>
-        <Link style={{ textDecoration: "unset", color: "unset" }} href={"/profile"}>
+        <Link
+          style={{ textDecoration: "unset", color: "unset" }}
+          href={"/profile"}
+        >
           Profile
         </Link>
       </MenuItem>
-      <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+      <MenuItem
+        onClick={() => {
+          handleMenuClose();
+          signOut();
+        }}
+      >
+        Log out
+      </MenuItem>
     </Menu>
   );
 
@@ -161,7 +177,9 @@ export default function AppHeader() {
               noWrap
               component="div"
               sx={{ display: { xs: "none", sm: "block" }, cursor: "pointer" }}
-              onClick={handleRedirect}
+              onClick={() => {
+                handleRedirect();
+              }}
             >
               TanPhu Furniture
             </Typography>
@@ -191,10 +209,31 @@ export default function AppHeader() {
                 },
               }}
             >
-              <Link href={"/like"}>likes</Link>
-              <Link href={"/mycart"}>my cart</Link>
-              {/* <Link href={'/'}></Link> */}
-              <Avatar onClick={handleProfileMenuOpen}>TP</Avatar>
+              {session ? (
+                <>
+                  <Product />
+                  <Link href={"/like"} style={{ color: "orangered" }}>
+                    likes
+                  </Link>
+                  <Link href={"/mycart"}>
+                    <AddShoppingCartIcon />
+                  </Link>
+                  {/* <Link href={'/'}></Link> */}
+                  <img
+                    onClick={handleProfileMenuOpen}
+                    style={{
+                      height: 35,
+                      width: 35,
+                      cursor: "pointer",
+                      borderRadius: "50%",
+                    }}
+                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/public/img/${session?.user?.avatar}`}
+                    alt=""
+                  />
+                </>
+              ) : (
+                <Link href={"/auth/signin"}>Login</Link>
+              )}
             </Box>
             <Box sx={{ display: { xs: "flex", md: "none" } }}>
               <IconButton

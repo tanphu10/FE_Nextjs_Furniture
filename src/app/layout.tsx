@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import AppHeader from "../components/header/app.header";
+import NextAuthWrapper from "../lib/next.auth.wrapper";
 // import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -18,9 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} style={{ margin: "0" }}>
-        <AppHeader />
-        {children}
-        <div style={{ marginBottom: "100px" }}></div>
+        {/* share session giữa các layout */}
+        <NextAuthWrapper>
+          <AppHeader />
+          {children}
+          <div style={{ marginBottom: "100px" }}></div>
+        </NextAuthWrapper>
       </body>
     </html>
   );
