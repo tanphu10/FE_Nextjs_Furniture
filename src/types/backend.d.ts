@@ -1,3 +1,5 @@
+import { IUser } from "./next-auth";
+
 export {};
 declare global {
   interface IRequest {
@@ -23,7 +25,7 @@ declare global {
       pages: number;
       total: number;
     };
-    result: T[];
+    content?: T | [];
   }
   interface ITypeItem {
     id: number;
@@ -38,5 +40,20 @@ declare global {
     price: number;
     description: string;
     type_id: number;
+  }
+  interface ICmt {
+    id: number;
+    item_id: number;
+    user_id: number;
+    date_on: Date;
+    content: string;
+    rate: number;
+    users: IUser;
+  }
+  interface ILike {
+    item_id: number;
+    user_id: number;
+    date_like: Date;
+    quantity: boolean;
   }
 }

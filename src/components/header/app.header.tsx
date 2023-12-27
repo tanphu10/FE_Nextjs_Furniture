@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function AppHeader() {
   const { data: session } = useSession();
-  console.log("session", session?.user?.avatar);
+  // console.log("session", session?.user?.avatar);
   // console.log("check UseSession", useSession());
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -165,7 +165,7 @@ export default function AppHeader() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
+        position="fixed"
         sx={{
           backgroundColor: "rgb(3 49 48 / 87%)",
         }}

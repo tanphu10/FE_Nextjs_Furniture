@@ -1,5 +1,5 @@
 import queryString from "query-string";
-
+import slugify from "slugify";
 export const sendRequest = async <T>(props: IRequest) => {
   let {
     url,
@@ -25,9 +25,9 @@ export const sendRequest = async <T>(props: IRequest) => {
   }
 
   return fetch(url, options).then((res) => {
+    // console.log("check abc");
     if (res.ok) {
       // ở đây nếu như trả res về thì chúng ta sẽ ép kiểu nó thành T
-      // console.log(res.json());
       return res.json() as T; // generic
     } else {
       return res.json().then(function (json) {
@@ -40,4 +40,13 @@ export const sendRequest = async <T>(props: IRequest) => {
       });
     }
   });
+};
+
+export const convertSlugUrl = (str: string) => {
+  if (!str) return "";
+  str = slugify(str, {
+    lower: true,
+    locale: "vi",
+  });
+  return str;
 };

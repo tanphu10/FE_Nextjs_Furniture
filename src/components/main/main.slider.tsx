@@ -13,25 +13,24 @@ import Link from "next/link";
 import { Box } from "@mui/material";
 import ItemMain from "./item.slider";
 import { sendRequest } from "@/src/utils/api";
+import { useRouter } from "next/navigation";
 interface IProps {
   data: ITypeItem[];
   items: Iitems[];
 }
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
 function MainSlider(props: IProps) {
   const [type, setType] = useState<ITypeItem[] | null>();
+  const [fur, setFur] = useState<Iitems[] | null>();
+  const router = useRouter();
+  console.log("check", fur);
   const { data, items } = props;
   useEffect(() => {
     setType(data);
   }, [data]);
+  useEffect(() => {
+    setFur(items);
+  }, [items]);
   // console.log("check type props", type);
   const NextArrow = (props: any) => {
     return (
@@ -63,8 +62,10 @@ function MainSlider(props: IProps) {
           position: "absolute",
           top: "25%",
           zIndex: 2,
-          minWidth: 30,
+          minWidth: 20,
           width: 35,
+          // left: 0,
+          right: "50px",
         }}
       >
         <ChevronLeftIcon />
@@ -73,80 +74,99 @@ function MainSlider(props: IProps) {
   };
   const settings: Settings = {
     infinite: true,
-    speed: 200,
+    speed: 300,
     slidesToShow: 6,
-    slidesToScroll: 1,
-    nextArrow: <NextArrow />,
+    // slidesToScroll: 1,
+    // nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
+    autoplaySpeed: 10,
+    vertical: true,
+    slidesToScroll: 2,
+    swipeToSlide: true,
   };
+
   const handleTypeItem = async (id: number) => {
-    console.log("first");
-    const resType = await sendRequest<IBackendRes<ITypeItem>>({
+    // console.log("first", id);
+    const resType = await sendRequest<IBackendRes<any>>({
       url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/item/type/${id}`,
       method: "GET",
     });
-    console.log("check type res>>>>", resType);
+    // console.log("check type res>>>>", resType.data.content);
+    let item = resType.data?.content;
+    await sendRequest<IBackendRes<any>>({
+      url: `/api/revalidate`,
+      method: "POST",
+      queryParams: "get-by-item",
+    });
+    setFur(item);
+    router.refresh();
+    // console.log("ccccccc", fur);
   };
   return (
     <>
       <Box
         sx={{
-          margin: "50px 0",
-          ".track": {
-            padding: "0 20px",
-            img: {
-              height: 150,
-              width: 150,
-            },
-          },
-          // h3: {
-          //   border: "1px solid #ccc",
-          //   padding: "20px",
-          //   height: "200px",
-          // },
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "60px 0",
         }}
       >
-        <Slider {...settings}>
-          {type?.map((item) => {
-            return (
-              <div
-                className="track"
-                key={item.id}
-                style={{ cursor: "pointer" }}
-              >
-                <img
-                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/public/img/${item?.icons}`}
-                  alt=""
-                />
-                <Button
-                  onClick={() => {
-                    handleTypeItem(item.id);
-                  }}
-                  style={{
-                    textDecoration: "unset",
-                    color: "black",
-                    // alignItems: "center",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
+        <Box
+          sx={{
+            position: "fixed",
+            width: "25%",
+            margin: "20px 0",
+            ".track": {
+              padding: "0 20px",
+              img: {
+                height: 50,
+                width: 150,
+              },
+            },
+          }}
+        >
+          <Slider {...settings}>
+            {type?.map((item) => {
+              return (
+                <div
+                  className="track"
+                  key={item.id}
+                  style={{ cursor: "pointer" }}
                 >
-                  <h4>{item.type_name}</h4>
-                </Button>
-              </div>
-            );
-          })}
-        </Slider>
-      </Box>
-      <Box sx={{ width: "100%" }}>
-        <Grid container spacing={2}>
-          {items?.map((item, index: number) => {
-            return (
-              <Grid item xs={12} md={3} key={index}>
-                <ItemMain data={item} />
-              </Grid>
-            );
-          })}
-        </Grid>
+                  <img
+                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/public/img/${item?.icons}`}
+                    alt=""
+                  />
+                  <Button
+                    onClick={() => {
+                      handleTypeItem(item.id);
+                    }}
+                    style={{
+                      textDecoration: "unset",
+                      color: "black",
+                      // alignItems: "center",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <h4>{item.type_name}</h4>
+                  </Button>
+                </div>
+              );
+            })}
+          </Slider>
+        </Box>
+        <Box sx={{ width: "75%", marginLeft: "25%" }}>
+          <Grid container spacing={2}>
+            {fur?.map((item, index: number) => {
+              return (
+                <Grid item xs={12} md={3} key={index}>
+                  <ItemMain data={item} />
+                </Grid>
+              );
+            })}
+          </Grid>
+        </Box>
       </Box>
     </>
   );

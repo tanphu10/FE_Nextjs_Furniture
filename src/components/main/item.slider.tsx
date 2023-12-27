@@ -36,7 +36,7 @@ const ItemMain = (props: IProps) => {
             style={{
               textDecoration: "unset",
             }}
-            href={"/"}
+            href={`/detail/${data.name_item}-${data.id}.html`}
           >
             Detail
           </Link>
