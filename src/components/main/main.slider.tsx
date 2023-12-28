@@ -23,14 +23,14 @@ function MainSlider(props: IProps) {
   const [type, setType] = useState<ITypeItem[] | null>();
   const [fur, setFur] = useState<Iitems[] | null>();
   const router = useRouter();
-  console.log("check", fur);
   const { data, items } = props;
+  // console.log("check", data.length);
   useEffect(() => {
     setType(data);
-  }, [data]);
+  }, [data.length]);
   useEffect(() => {
     setFur(items);
-  }, [items]);
+  }, [items.length]);
   // console.log("check type props", type);
   const NextArrow = (props: any) => {
     return (
@@ -45,6 +45,7 @@ function MainSlider(props: IProps) {
           zIndex: 2,
           minWidth: 30,
           width: 35,
+          // left: "100%",
         }}
       >
         <ChevronRightIcon />
@@ -62,29 +63,23 @@ function MainSlider(props: IProps) {
           position: "absolute",
           top: "25%",
           zIndex: 2,
-          minWidth: 20,
+          minWidth: 30,
           width: 35,
-          // left: 0,
-          right: "50px",
         }}
       >
         <ChevronLeftIcon />
       </Button>
     );
   };
+
   const settings: Settings = {
     infinite: true,
-    speed: 300,
+    speed: 500,
     slidesToShow: 6,
-    // slidesToScroll: 1,
-    // nextArrow: <NextArrow />,
+    slidesToScroll: 1,
+    nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-    autoplaySpeed: 10,
-    vertical: true,
-    slidesToScroll: 2,
-    swipeToSlide: true,
   };
-
   const handleTypeItem = async (id: number) => {
     // console.log("first", id);
     const resType = await sendRequest<IBackendRes<any>>({
@@ -106,67 +101,62 @@ function MainSlider(props: IProps) {
     <>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          margin: "60px 0",
+          margin: "70px 30px 0",
+          ".track": {
+            padding: "0 10px",
+            img: {
+              height: 150,
+              width: 150,
+            },
+          },
+          h3: {
+            border: "1px solid #ccc",
+            padding: "20px",
+            height: "200px",
+          },
         }}
       >
-        <Box
-          sx={{
-            position: "fixed",
-            width: "25%",
-            margin: "20px 0",
-            ".track": {
-              padding: "0 20px",
-              img: {
-                height: 50,
-                width: 150,
-              },
-            },
-          }}
-        >
-          <Slider {...settings}>
-            {type?.map((item) => {
-              return (
-                <div
-                  className="track"
-                  key={item.id}
-                  style={{ cursor: "pointer" }}
+        <Slider {...settings}>
+          {type?.map((item) => {
+            return (
+              <div
+                className="track"
+                key={item.id}
+                style={{ cursor: "pointer", margin: "0 10px" }}
+              >
+                <img
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/public/img/${item?.icons}`}
+                  alt=""
+                />
+                <Button
+                  onClick={() => {
+                    handleTypeItem(item.id);
+                  }}
+                  style={{
+                    textDecoration: "unset",
+                    color: "black",
+                    // alignItems: "center",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
                 >
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/public/img/${item?.icons}`}
-                    alt=""
-                  />
-                  <Button
-                    onClick={() => {
-                      handleTypeItem(item.id);
-                    }}
-                    style={{
-                      textDecoration: "unset",
-                      color: "black",
-                      // alignItems: "center",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <h4>{item.type_name}</h4>
-                  </Button>
-                </div>
-              );
-            })}
-          </Slider>
-        </Box>
-        <Box sx={{ width: "75%", marginLeft: "25%" }}>
-          <Grid container spacing={2}>
-            {fur?.map((item, index: number) => {
-              return (
-                <Grid item xs={12} md={3} key={index}>
-                  <ItemMain data={item} />
-                </Grid>
-              );
-            })}
-          </Grid>
-        </Box>
+                  <h4>{item.type_name}</h4>
+                </Button>
+              </div>
+            );
+          })}
+        </Slider>
+      </Box>
+      <Box id="boxItem" sx={{ width: "100%" }}>
+        <Grid container spacing={2} style={{ padding: " 0 20px" }}>
+          {fur?.map((item, index: number) => {
+            return (
+              <Grid item xs={12} md={3} key={index}>
+                <ItemMain data={item} />
+              </Grid>
+            );
+          })}
+        </Grid>
       </Box>
     </>
   );

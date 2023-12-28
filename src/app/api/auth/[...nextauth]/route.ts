@@ -30,16 +30,16 @@ export const authOptions: AuthOptions = {
             pass_word: credentials?.password,
           },
         });
-        console.log(res);
+        console.log("check sigin", res);
         // Add logic here to look up the user from the credentials supplied
-        if (res && res?.data) {
+        if (res && res?.statusCode === 200) {
           // Any object returned will be saved in `user` property of the JWT
           return res?.data as any;
         } else {
           // If you return null then an error will be displayed advising the user to check their details.
           // return null;
           // console.log("res server", res.message);
-          throw new Error(res.error as string);
+          throw new Error(res?.data?.content as any);
           // You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
         }
       },

@@ -18,7 +18,7 @@ const LikeItem = (props: IProps) => {
   const { data: session } = useSession();
   let user_id = session?.user.id;
   let { resLike, resCmt, item } = props;
-  // console.log("resLike", resLike);
+  console.log("resLike", resLike);
   let { id } = item;
   let rates = resCmt.reduce((total, product, index) => {
     return (total += product.rate);
@@ -38,15 +38,20 @@ const LikeItem = (props: IProps) => {
         date_like: new Date(),
         quantity: resLike?.some((t) => t.item_id === id) ? true : false,
       },
-      //   headers: {
-      //     Authorization: `Bearer ${session?.access_token}`,
-      //   },
+
     });
     await sendRequest<IBackendRes<any>>({
       url: `/api/revalidate`,
       method: "POST",
       queryParams: {
         tag: "get-by-like-id",
+      },
+    });
+    await sendRequest<IBackendRes<any>>({
+      url: `/api/revalidate`,
+      method: "POST",
+      queryParams: {
+        tag: "get-like-user-item",
       },
     });
     router.refresh();
@@ -69,7 +74,7 @@ const LikeItem = (props: IProps) => {
             sx={{ borderRadius: "5px" }}
             size="medium"
             icon={<FavoriteIcon />}
-            color={resLike?.some((t) => t.item_id === id) ? "error" : "default"}
+            color={resLike?.some((t) => t.user_id === user_id) ? "error" : "default"}
             label="like"
             //   color="success"
             variant="outlined"

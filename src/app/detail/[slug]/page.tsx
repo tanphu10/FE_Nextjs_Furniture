@@ -1,5 +1,6 @@
 import DetailItem from "@/src/components/items/detail.item";
 import { sendRequest } from "@/src/utils/api";
+import { Container } from "@mui/material";
 import { useSearchParams } from "next/navigation";
 
 const detailItem = async (props: any) => {
@@ -11,14 +12,15 @@ const detailItem = async (props: any) => {
   const res2 = res1[0]?.split("-");
   const id = res2[res1.length - 1];
   //   console.log("check id=>>>", res1);
-  const res = await sendRequest<IBackendRes<IModelPaginate<Iitems>>>({
+  const res = await sendRequest<IBackendRes<IModelPaginate<any>>>({
     url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/item/${id}`,
     method: "GET",
   });
   //   console.log("check data trả về", res.data);
   //   let item = res?.data?.content || null;
+  // ID: Là của item
   const resLike = await sendRequest<IBackendRes<IModelPaginate<ILike[]>>>({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/like/${id}`,
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/like/item/${id}`,
     method: "GET",
     //   headers: {
     //     Authorization: `Bearer ${session?.access_token}`,
@@ -34,14 +36,22 @@ const detailItem = async (props: any) => {
       next: { tags: ["get-by-cmt-id"] },
     },
   });
+  const resPhoto = await sendRequest<IBackendRes<IModelPaginate<any>>>({
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/photo/item/${id}`,
+    method: "GET",
+    nextOption: {
+      next: { tags: ["get-by-photo-id"] },
+    },
+  });
   //   console.log(res)
-//   console.log("check data like", resCmt.data?.content);
+  //   console.log("check data like", resCmt.data?.content);
   return (
     <>
       <DetailItem
         item={res.data?.content || null}
         resLike={resLike.data?.content || []}
         resCmt={resCmt.data?.content || []}
+        resPhoto={resPhoto.data?.content || []}
       />
     </>
   );

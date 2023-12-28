@@ -58,13 +58,14 @@ const AuthSignIn = () => {
       password: password,
       redirect: false,
     });
-    // console.log("check error res >>>>: ", res);
+    console.log("check error res >>>>: ", res);
     if (!res?.error) {
       // redirect to home với server
       router.push("/");
     } else {
       setOpenMassage(true);
-      setResMessage(res?.error);
+      true;
+      setResMessage("sai mật khẩu hoặc email");
     }
   };
   return (
@@ -152,7 +153,7 @@ const AuthSignIn = () => {
                     </IconButton>
                   </InputAdornment>
                 ),
-              }} 
+              }}
             />
             <Button
               sx={{

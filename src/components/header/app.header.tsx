@@ -65,7 +65,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function AppHeader() {
   const { data: session } = useSession();
-  // console.log("session", session?.user?.avatar);
+  const userId = session?.user?.id;
   // console.log("check UseSession", useSession());
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -93,6 +93,7 @@ export default function AppHeader() {
   };
   const handleLike = () => {};
   const menuId = "primary-search-account-menu";
+
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -112,7 +113,7 @@ export default function AppHeader() {
       <MenuItem onClick={handleMenuClose}>
         <Link
           style={{ textDecoration: "unset", color: "unset" }}
-          href={"/profile"}
+          href={`/profile/${userId}`}
         >
           Profile
         </Link>
@@ -211,14 +212,20 @@ export default function AppHeader() {
             >
               {session ? (
                 <>
-                  <Product />
-                  <Link href={"/like"} style={{ color: "orangered" }}>
-                    likes
+                  {/* <Product /> */}
+                  <Link href={`/like/${userId}`} style={{ color: "orangered" }}>
+                    Likes
                   </Link>
-                  <Link href={"/mycart"}>
+
+                  <Link
+                    href={`/myorders/${userId}`}
+                    style={{ color: "orangered" }}
+                  >
+                    My order
+                  </Link>
+                  <Link href={`/mycart/${userId}`}>
                     <AddShoppingCartIcon />
                   </Link>
-                  {/* <Link href={'/'}></Link> */}
                   <img
                     onClick={handleProfileMenuOpen}
                     style={{

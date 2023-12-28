@@ -14,9 +14,9 @@ declare global {
   interface IBackendRes<T> {
     error?: string | string[];
     message: string;
-    statusCode: number | string;
     data?: T;
     dateTime?: Date;
+    statusCode: number | string;
   }
   interface IModelPaginate<T> {
     meta: {
@@ -25,7 +25,7 @@ declare global {
       pages: number;
       total: number;
     };
-    content?: T | [];
+    content?: T;
   }
   interface ITypeItem {
     id: number;
@@ -55,5 +55,42 @@ declare global {
     user_id: number;
     date_like: Date;
     quantity: boolean;
+    items: Iitems;
+  }
+  interface IBook {
+    item_id: number;
+    user_id: number;
+    number: number;
+    date_on: Date;
+    date_out: Date;
+    notice: string;
+  }
+  interface IItemBooked {
+    id: number;
+    item_id: number;
+    user_id: number;
+    number: number;
+    date_on: Date;
+    date_out: Date;
+    notice: string;
+    items: Iitems;
+    users: IUser;
+  }
+  interface IAddCart {
+    id: number;
+    item_id: number;
+    user_id: number;
+    number: number;
+    items: Iitems;
+    users: IUser;
+  }
+  interface IPhoto {
+    id: number;
+    item_id: number;
+    photo_1: string;
+    photo_2: string;
+    photo_3: string;
+    photo_4: string;
+    photo_5: string;
   }
 }
