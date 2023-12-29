@@ -8,6 +8,7 @@ import {
   Button,
   Card,
   CardActionArea,
+  CardActions,
   CardContent,
   CardMedia,
   Dialog,
@@ -146,8 +147,50 @@ const AddCart = (props: IProps) => {
                       alt="green iguana"
                     />
                   </CardActionArea>
-                  <Box sx={{ margin: "10px" }}>
+                  <Card>
                     <CardContent>
+                      <Typography
+                        // sx={{ fontSize: 14 }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        Tên sản phẩm: {item?.items.name_item}
+                      </Typography>
+                      <Typography
+                        sx={{ fontSize: 20, mb: 1.5 }}
+                        color="oranged"
+                      >
+                        Price: {item?.items.price}$
+                      </Typography>
+                      <Typography variant="body2">
+                        description : {item.items.description}
+                      </Typography>
+                    </CardContent>
+                    <div style={{ padding: "0 10px" }}>
+                      <hr />
+                    </div>
+                    <CardActions>
+                      <Typography
+                        // sx={{ fontSize: 14 }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        Thông tin vận chuyển: giao đến đại chỉ abc
+                      </Typography>
+                      <hr />
+                    </CardActions>
+                    <CardActions>
+                      <Typography
+                        // sx={{ fontSize: 14 }}
+                        color="text.secondary"
+                        gutterBottom
+                      >
+                        giao siêu tốc : trước 15h hôm nay :2$ ship
+                      </Typography>
+                    </CardActions>
+                  </Card>
+                  <Card>
+                    <CardContent sx={{ padding: "10px", marginBottom: "10px" }}>
                       <div style={{ marginBottom: "10px" }}>
                         TanPhu Furniture
                       </div>
@@ -214,7 +257,13 @@ const AddCart = (props: IProps) => {
                       </Typography>
                     </CardContent>
 
-                    <div style={{ display: "flex", justifyContent: "center" }}>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        marginBottom: "10px",
+                      }}
+                    >
                       <Button
                         variant="outlined"
                         color="error"
@@ -276,7 +325,7 @@ const AddCart = (props: IProps) => {
                         </DialogActions>
                       </Dialog>
                     </div>
-                  </Box>
+                  </Card>
                 </Card>
               </Grid>
             );
@@ -287,47 +336,4 @@ const AddCart = (props: IProps) => {
   );
 };
 
-// export function aaaa() {
-//   const [open, setOpen] = React.useState(false);
-
-//   const handleClickOpen = () => {
-//     setOpen(true);
-//   };
-
-//   const handleClose = () => {
-//     setOpen(false);
-//   };
-
-//   return (
-//     <React.Fragment>
-//       <div style={{ marginTop: 100 }}>
-//         <Button variant="outlined" onClick={handleClickOpen}>
-//           Open draggable dialog
-//         </Button>
-//         <Dialog
-//           open={open}
-//           onClose={handleClose}
-//           //   PaperComponent={PaperComponent}
-//           aria-labelledby="draggable-dialog-title"
-//         >
-//           <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
-//             Subscribe
-//           </DialogTitle>
-//           <DialogContent>
-//             <DialogContentText>
-//               To subscribe to this website, please enter your email address
-//               here. We will send updates occasionally.
-//             </DialogContentText>
-//           </DialogContent>
-//           <DialogActions>
-//             <Button autoFocus onClick={handleClose}>
-//               Cancel
-//             </Button>
-//             <Button onClick={handleClose}>Subscribe</Button>
-//           </DialogActions>
-//         </Dialog>
-//       </div>
-//     </React.Fragment>
-//   );
-// }
 export default AddCart;

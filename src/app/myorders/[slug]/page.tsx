@@ -8,7 +8,7 @@ const myorders = async (props: any) => {
   const id = +params.slug;
   // console.log(id);
   const res = await sendRequest<IBackendRes<IModelPaginate<any>>>({
-    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/${id}`,
+    url: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/book/user/${id}`,
     method: "GET",
     nextOption: {
       next: { tags: ["get-booked-item"] },

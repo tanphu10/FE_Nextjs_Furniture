@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import Product from "./product";
 import { signOut, useSession } from "next-auth/react";
+import { sendRequest } from "@/src/utils/api";
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -91,7 +92,17 @@ export default function AppHeader() {
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
-  const handleLike = () => {};
+
+  const [value, setValue] = React.useState("");
+
+  // const handleSearch = async (event: any) => {
+  //   if (event.key === "Enter") {
+  //     if (value) {
+  //       router.push(`/search?q=${va}`);
+  //     }
+  //   }
+  // };
+
   const menuId = "primary-search-account-menu";
 
   const renderMenu = (
@@ -144,19 +155,6 @@ export default function AppHeader() {
       <MenuItem>my cart</MenuItem>
       <MenuItem>profile</MenuItem>
       <MenuItem>my account</MenuItem>
-
-      {/* <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem> */}
     </Menu>
   );
   const router = useRouter();
@@ -191,6 +189,12 @@ export default function AppHeader() {
               <StyledInputBase
                 placeholder="Search…"
                 inputProps={{ "aria-label": "search" }}
+                onKeyDown={(e: any) => {
+                  if (e.key === "Enter") {
+                    if (e?.target?.value)
+                      router.push(`/search?s=${e?.target?.value}`);
+                  }
+                }}
               />
             </Search>
             <Box sx={{ flexGrow: 1 }} />

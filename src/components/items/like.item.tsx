@@ -18,7 +18,7 @@ const LikeItem = (props: IProps) => {
   const { data: session } = useSession();
   let user_id = session?.user.id;
   let { resLike, resCmt, item } = props;
-  console.log("resLike", resLike);
+  // console.log("resLike", resLike);
   let { id } = item;
   let rates = resCmt.reduce((total, product, index) => {
     return (total += product.rate);
