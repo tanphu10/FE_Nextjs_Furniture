@@ -129,6 +129,14 @@ export default function AppHeader() {
           Profile
         </Link>
       </MenuItem>
+      <MenuItem onClick={handleMenuClose}>
+        <Link
+          style={{ textDecoration: "unset", color: "unset" }}
+          href={`/editorder/${userId}`}
+        >
+          Edit order 
+        </Link>
+      </MenuItem>
       <MenuItem
         onClick={() => {
           handleMenuClose();

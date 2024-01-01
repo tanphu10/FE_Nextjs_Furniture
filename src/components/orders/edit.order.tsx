@@ -157,12 +157,12 @@ const EditOrder = (props: IProps) => {
   return (
     <>
       <Box sx={{ width: "100%", marginTop: "100px" }}>
-        <div>Các đơn hàng đã được order</div>
+        <div>Các đơn hàng đã được xóa</div>
         <hr />
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           {arrItem?.map((item, index: number) => {
             // console.log("check item", item);
-            if (item.confirm) {
+            if (item.confirm == false) {
               return (
                 <Grid item xs={6} key={index}>
                   <Card

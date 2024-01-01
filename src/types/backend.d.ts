@@ -75,6 +75,7 @@ declare global {
     notice: string;
     items: Iitems;
     users: IUser;
+    confirm: boolean;
   }
   interface IAddCart {
     id: number;
@@ -92,5 +93,12 @@ declare global {
     photo_3: string;
     photo_4: string;
     photo_5: string;
+  }
+  interface IReqUser {
+    book_id: number;
+    date_on: Date;
+    date_out: Date;
+    notice: string;
+    number: number;
   }
 }

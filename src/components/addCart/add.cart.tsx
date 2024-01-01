@@ -126,9 +126,12 @@ const AddCart = (props: IProps) => {
   return (
     <>
       <Box sx={{ width: "100%", marginTop: "100px" }}>
+        <div style={{ marginTop: "100px 0" }}>
+          Giỏ hàng của bạn :
+          <hr />
+        </div>
         <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
           {CartItem.map((item, index) => {
-            // console.log(item.id
             return (
               <Grid item xs={12} key={index}>
                 <Card

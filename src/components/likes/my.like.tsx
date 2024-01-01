@@ -20,6 +20,11 @@ const MyLike = (props: IProps) => {
   return (
     <Container>
       <div id="mylike" style={{ width: "100%", margin: "70px 0" }}>
+        <div style={{ padding: " 0 20px", marginTop:"100px 0" }}>
+          Danh sách các đơn hàng bạn yêu thích
+          <hr />
+        </div>
+
         <Grid container spacing={2} style={{ padding: " 0 20px" }}>
           {like?.map((like, index: number) => {
             return (

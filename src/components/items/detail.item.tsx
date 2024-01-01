@@ -62,6 +62,7 @@ const DetailItem = (props: IProps) => {
         notice: "mua hàng",
         date_on: new Date(),
         date_out: new Date(),
+        confirm: true,
       },
     });
     // console.log("check data book item >>>", res);
@@ -123,20 +124,7 @@ const DetailItem = (props: IProps) => {
   return (
     <>
       <div style={{ margin: "80px 50px 20px" }}>
-        {/* <div></div> */}
         <CardItem resPhoto={resPhoto} />
-        {/* <Card sx={{ width: 700 }}>
-          <CardActionArea>
-            <CardMedia
-              // sx={{ padding: "10px" }}
-              component="img"
-              height="100%"
-              width="100%"
-              image={`${process.env.NEXT_PUBLIC_BACKEND_URL}/public/img/${item?.photo}`}
-              alt="green iguana"
-            />
-          </CardActionArea>
-        </Card> */}
         <div
           style={{
             display: "flex",
